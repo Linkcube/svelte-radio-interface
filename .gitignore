@@ -1,0 +1,5 @@
+/node_modules/
+/public/build/
+svelte_README.md
+
+.DS_Store
