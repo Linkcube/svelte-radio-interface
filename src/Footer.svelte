@@ -1,24 +1,14 @@
 <script>
-	import ProgressBar from './progress_bar.svelte';
+    import ProgressBar from './progress_bar.svelte';
+    import StreamStatus from './StreamStatus.svelte';
     import { primary, text_on_color } from './theme.js';
-    import { valid_object, api_object, misc_object } from './stores';
+    import { api_object, misc_object } from './stores';
 
     function format_seconds(seconds) {
         var measuredTime = new Date(null);
         measuredTime.setSeconds(seconds);
         return measuredTime.toISOString().substr(11, 8);
     }
-
-    let state_icon = "pause";
-
-    const unsub_valid = valid_object.subscribe((value) => {
-        state_icon = "pause";
-        if (value.force_stop) {
-            state_icon = "not_interested";
-        } else if (value.valid_dj) {
-            state_icon = "play_arrow";
-        }
-    });
 
     let current_time = format_seconds(0);
     let current_stamp = 0;
@@ -78,14 +68,6 @@
         width: 70%;
         margin: auto;
     }
-
-    .material-icons {
-        color: var(--primary-color);
-        margin-top: auto;
-        margin-bottom: auto;
-        margin-left: 15px;
-        margin-right: 15px;
-    }
 </style>
 
 <footer style="--primary-color:{$primary}">
@@ -104,6 +86,6 @@
             <p style="--primary-color:{$text_on_color}">Not Recording</p>
             {/if}
         </div>
-        <i class="material-icons" style="--primary-color:{$text_on_color}">{state_icon}</i>
+        <StreamStatus></StreamStatus>
     </div>
 </footer>

@@ -3,9 +3,7 @@ import fetchGraphQL from 'fetch-graphql';
 
 export const poll_interval = writable(5000);
 
-export const start_time = writable(0);
-
-export const current_time = writable(5);
+export const current_page = writable("main");
 
 export const end_time = writable(10);
 
