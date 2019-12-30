@@ -36,15 +36,14 @@ export const valid_object = writable({
     force_stop: false
 });
 
-// setInterval(() => {
-//     current_time.update(1);
-//     // if (curr_t > $end_time) {
-//     //     current_time.set($start_time);
-//     // }
-// }, 5000)
-
-// api_object.subscribe(value => console.log(value));
-// server_object.subscribe(value => console.log(`server: ${value}`));
+export const config_object = writable({
+    api_uri: "",
+    server_uri: "",
+    stream_uri: "",
+    poll_interval: 0,
+    excluded_djs: [],
+    export_folder: ""
+})
 
 const api_query = `
 query {
@@ -92,6 +91,18 @@ query {
     }
 }`;
 
+const config_query = `
+query {
+    config {
+        api_uri,
+        server_uri,
+        stream_uri,
+        poll_interval,
+        excluded_djs,
+        export_folder
+    }
+}`;
+
 const graphql_url = 'http://localhost:4000/graphql';
 
 function update_objects() {
@@ -115,6 +126,15 @@ function update_objects() {
         {},
         valid_query,
     ).then(result => valid_object.set(result.data.valid));
+}
+
+export function update_config() {
+    return fetchGraphQL(
+        graphql_url,
+        {},
+        config_query,
+    );
+    // ).then(result => config_object.set(result.data.config_data));
 }
 
 update_objects();

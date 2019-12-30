@@ -1,26 +1,44 @@
 <script>
-    import { current_page } from './stores.js';
+    import ServerSettingsModal from './ServerSettingsModal.svelte';
+    import { current_page, update_config, config_object } from './stores.js';
     import { hover_color, text_on_color, highlight } from './theme.js';
+    import FancyInput from './FancyInput.svelte';
 
     let menu_open = false;
     let main_page = true;
+    let open_modal = false;
+    let config_promise;
 
     function openMenu() {
         menu_open = !menu_open;
     }
 
     function serverSettings() {
-
+        config_promise = update_config();
+        menu_open = false;
+        open_modal = true;
     }
 
     function pastRecordings() {
+        menu_open = false;
         current_page.set("recordings");
     }
 
     function mainPage() {
+        menu_open = false;
         current_page.set("main");
     }
+
+    const handle_keydown = e => {
+        if (menu_open) {
+            if (e.key === 'Escape') {
+                menu_open = false;
+            }
+        }
+    }
 </script>
+
+<svelte:window on:keydown={handle_keydown}/>
 
 <style>
     .material-icons {
@@ -35,7 +53,7 @@
     }
 
     .material-icons:hover {
-        box-shadow: 8px 8px  var(--shadow-color);
+        box-shadow: 6px 6px  var(--shadow-color);
     }
 
     .dropdown-content {
@@ -61,6 +79,29 @@
         transition-duration: 400ms;
         
     }
+
+    .menu-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0);
+	}
+
+    .form-input {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .modal-title {
+        font-size: 20px;
+    }
+
+    input {
+        width: 250px;
+    }
 </style>
 
 <button on:click={openMenu} class="material-icons" style="--primary-color:{$text_on_color}; --shadow-color:{$highlight}">
@@ -76,4 +117,25 @@
             <span on:click={mainPage} style="--hover-color:{$hover_color}">Show Controls</span>
         {/if}
     </div>
+    <div class="menu-background" on:click="{() => menu_open = false}"></div>
+{/if}
+
+{#if open_modal}
+    <ServerSettingsModal on:close="{() => open_modal = false}">
+        <div class="modal-title" slot="header">Change your server settings</div>
+        {#await config_promise}
+            loading
+        {:then value}
+            <div class="form-input">
+                <FancyInput id="api_uri" label="API URI" value={value.data.config.api_uri}></FancyInput>
+                <FancyInput id="server_uri" label="Server URI" value={value.data.config.server_uri}></FancyInput>
+                <FancyInput id="stream_uri" label="Stream URI" value={value.data.config.stream_uri}></FancyInput>
+                <FancyInput id="poll_interval" label="Poll Interval" value={value.data.config.poll_interval}></FancyInput>
+                <FancyInput id="excluded_djs" label="Excluded DJs" value={value.data.config.excluded_djs}></FancyInput>
+                <FancyInput id="export_folder" label="Export Folder" value={value.data.config.export_folder}></FancyInput>
+            </div>
+        {:catch error}
+            {error.message}
+        {/await}
+    </ServerSettingsModal>
 {/if}
