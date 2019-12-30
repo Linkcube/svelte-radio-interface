@@ -1,4 +1,5 @@
 <script>
+    import DropdownMenu from './DropdownMenu.svelte';
     import { primary, background, base_text_color, text_on_color } from './theme.js';
     import { server_object, api_object } from './stores';
 </script>
@@ -9,7 +10,7 @@
         background: var(--primary-color);
         display: inline-flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: flex-end;
         line-height: 40px;
     }
     
@@ -19,27 +20,34 @@
         text-align: center;
         font-size: 20px;
     }
+
+    .text-alignment {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
+    }
 </style>
 
 <header style="--primary-color:{$primary}">
-    <div>
-        <p style="--primary-color:{$text_on_color}">
-            {$server_object.server_name} - {$server_object.server_description}
-        </p>
+    <div class="text-alignment">
+        <div>
+            <p style="--primary-color:{$text_on_color}">
+                {$server_object.server_name} - {$server_object.server_description}
+            </p>
+        </div>
+        <div>
+            <p style="--primary-color:{$text_on_color}">
+                {$server_object.audio_format} | {$server_object.bitrate}kb/s | {$server_object.sample_rate}Hz
+            </p>
+        </div>
+        <div>
+            <p style="--primary-color:{$text_on_color}">
+                Listeners: {$api_object.listeners}
+            </p>
+        </div>
     </div>
     <div>
-        <p style="--primary-color:{$text_on_color}">
-            {$server_object.audio_format} | {$server_object.bitrate}kb/s | {$server_object.sample_rate}Hz
-        </p>
-    </div>
-    <div>
-        <p style="--primary-color:{$text_on_color}">
-            Listeners: {$api_object.listeners}
-        </p>
-    </div>
-    <div>
-        <p style="--primary-color:{$text_on_color}">
-            Server Settings
-        </p>
+        <DropdownMenu></DropdownMenu>
     </div>
 </header>

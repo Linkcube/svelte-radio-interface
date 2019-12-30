@@ -15,7 +15,8 @@
             const current = value.current_time - value.start_time;
             const end = value.end_time - value.start_time;
             const prog = current / end;
-            if (prog) progress.set(prog);
+            if (end === 0) progress.set(1);
+            else if (prog) progress.set(prog);
         }
     });
 
@@ -28,7 +29,7 @@
         color: var(--primary-color);
         background: var(--background-color);
         border: none;
-        height: 15px;
+        height: 10px;
     }
     
     progress::-webkit-progress-bar {background-color: var(--background-color); width: 100%}
@@ -38,4 +39,4 @@
     progress::-webkit-progress-value { background: var(--primary-color); }
 </style>
 
-<progress value={$progress} style="--primary-color:{$highlight}; --background-color:{$background}"></progress>
+<progress value={$progress} style="--primary-color:{$highlight}; --background-color:{$primary}"></progress>

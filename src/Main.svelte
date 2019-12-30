@@ -34,14 +34,14 @@
     }
 
     img {
-        max-width: 100%;
+        max-width: 90%;
+        margin-top: 5%;
     }
 </style>
 
 
 <main style="--primary-color:{$background}">
     <div class="top">
-        <!-- <img src={$misc_object.dj_image_link} alt="dj_pic" class="dj-pic" /> -->
         <div class="dj-pic">
             <img src={$misc_object.dj_image_link} alt="dj_pic" class="dj-pic" />
         </div>
