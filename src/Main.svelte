@@ -34,7 +34,8 @@
     }
 
     img {
-        max-width: 100%;
+        max-width: 90%;
+        margin-top: 5%;
     }
 </style>
 

@@ -103,6 +103,19 @@ query {
     }
 }`;
 
+const mutate_config_query = (config_data) => `
+    mutation {
+        updateConfig(config: {
+            api_uri: ${JSON.stringify(config_data.api_uri)},
+            excluded_djs: ${JSON.stringify(config_data.excluded_djs)},
+            export_folder: ${JSON.stringify(config_data.export_folder)},
+            poll_interval: ${JSON.stringify(config_data.poll_interval)},
+            server_uri: ${JSON.stringify(config_data.server_uri)},
+            stream_uri: ${JSON.stringify(config_data.stream_uri)}
+        })
+    }
+`;
+
 const graphql_url = 'http://localhost:4000/graphql';
 
 function update_objects() {
@@ -128,13 +141,22 @@ function update_objects() {
     ).then(result => valid_object.set(result.data.valid));
 }
 
-export function update_config() {
+export function query_config() {
     return fetchGraphQL(
         graphql_url,
         {},
         config_query,
     );
     // ).then(result => config_object.set(result.data.config_data));
+}
+
+export function change_config(new_config) {
+    console.log(mutate_config_query(new_config));
+    return fetchGraphQL(
+        graphql_url,
+        {},
+        mutate_config_query(new_config),
+    );
 }
 
 update_objects();

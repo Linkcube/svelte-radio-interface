@@ -15,7 +15,8 @@
             const current = value.current_time - value.start_time;
             const end = value.end_time - value.start_time;
             const prog = current / end;
-            if (prog) progress.set(prog);
+            if (end === 0) progress.set(1);
+            else if (prog) progress.set(prog);
         }
     });
 

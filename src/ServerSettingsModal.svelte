@@ -1,8 +1,12 @@
 <script>
-	import { createEventDispatcher, onDestroy } from 'svelte';
+    import { createEventDispatcher, onDestroy } from 'svelte';
 
 	const dispatch = createEventDispatcher();
-	const close = () => dispatch('close');
+    const close = () => dispatch('close');
+    const submission = () => {
+        dispatch('submission');
+        dispatch('close');
+    }
 
 	let modal;
 
@@ -43,12 +47,18 @@
 
 <div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
 	<slot name="header"></slot>
-	<hr>
+    <br>
+	<!-- <hr> -->
 	<slot></slot>
-	<hr>
+    <br>
+	<!-- <hr> -->
 
 	<!-- svelte-ignore a11y-autofocus -->
-	<button autofocus on:click={close}>close modal</button>
+	<!-- <button autofocus on:click={close}>close modal</button> -->
+    <div class="user-actions">
+        <span class="cancel" on:click={close}>Cancel</span>
+        <span class="accept" on:click={submission}>Accept</span>
+    </div>
 </div>
 
 <style>
@@ -66,16 +76,48 @@
 		left: 50%;
 		top: 50%;
 		width: calc(100vw - 4em);
-		max-width: 40em;
+		max-width: 38em;
 		max-height: calc(100vh - 4em);
 		overflow: auto;
 		transform: translate(-50%,-50%);
 		padding: 1em;
 		border-radius: 0.2em;
 		background: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.29);
 	}
 
 	button {
 		display: block;
 	}
+
+    .user-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .cancel {
+        color: red;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .cancel:hover {
+        background: rgb(253, 229, 232);
+        transition-duration: 400ms;
+    }
+
+    .accept {
+        color: blue;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .accept:hover {
+        background: rgb(235, 246, 250);
+        transition-duration: 400ms;
+    }
 </style>
