@@ -1,6 +1,6 @@
 <script>
     import ServerSettingsModal from './ServerSettingsModal.svelte';
-    import { current_page, query_config, change_config } from './stores.js';
+    import { current_page, query_config, change_config, update_past_recordings } from './stores.js';
     import { hover_color, text_on_color, highlight } from './theme.js';
     import FancyInput from './FancyInput.svelte';
 
@@ -26,6 +26,7 @@
 
     function pastRecordings() {
         menu_open = false;
+        update_past_recordings();
         current_page.set("recordings");
     }
 
@@ -44,8 +45,11 @@
 
     function submit() {
         config_data.excluded_djs = JSON.parse(config_data.excluded_djs);
-        console.log(config_data);
-        change_config(config_data).then(result => console.log(result));
+        change_config(config_data).then(result => {
+             console.log(result);
+             update_past_recordings();
+        }
+        );
     }
 </script>
 
@@ -67,6 +71,10 @@
         box-shadow: 6px 6px  var(--shadow-color);
     }
 
+    .open-menu-icon {
+        box-shadow: 6px 6px  var(--shadow-color);
+    }
+
     .dropdown-content {
         display: flex;
         flex-direction: column;
@@ -81,8 +89,11 @@
     }
 
     span {
-        padding: 10px;
-        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        text-align: left;
     }
 
     span:hover {
@@ -111,18 +122,18 @@
     }
 </style>
 
-<button on:click={openMenu} class="material-icons" style="--primary-color:{$text_on_color}; --shadow-color:{$highlight}">
+<button on:click={openMenu} class="{menu_open ? 'material-icons open-menu-icon' : 'material-icons'}" style="--primary-color:{$text_on_color}; --shadow-color:{$highlight}">
     { menu_open ? 'menu_open' : 'menu' }
 </button>
 
 {#if menu_open}
     <div class="dropdown-content">
         <span on:click={serverSettings} style="--hover-color:{$hover_color}">Change Server Settings</span>
-        <!-- {#if $current_page == "main"}
+        {#if $current_page == "main"}
             <span on:click={pastRecordings} style="--hover-color:{$hover_color}">Show Past Recordings</span>
         {:else}
             <span on:click={mainPage} style="--hover-color:{$hover_color}">Show Controls</span>
-        {/if} -->
+        {/if}
     </div>
     <div class="menu-background" on:click="{() => menu_open = false}"></div>
 {/if}

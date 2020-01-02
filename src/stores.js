@@ -36,15 +36,6 @@ export const valid_object = writable({
     force_stop: false
 });
 
-export const config_object = writable({
-    api_uri: "",
-    server_uri: "",
-    stream_uri: "",
-    poll_interval: 0,
-    excluded_djs: [],
-    export_folder: ""
-})
-
 const api_query = `
 query {
     api {
@@ -103,6 +94,16 @@ query {
     }
 }`;
 
+const past_recordings_query = `
+query {
+    past_recordings {
+        recordings {
+            folder,
+            songs
+        }
+    }
+}`;
+
 const mutate_config_query = (config_data) => `
     mutation {
         updateConfig(config: {
@@ -147,16 +148,24 @@ export function query_config() {
         {},
         config_query,
     );
-    // ).then(result => config_object.set(result.data.config_data));
 }
 
 export function change_config(new_config) {
-    console.log(mutate_config_query(new_config));
     return fetchGraphQL(
         graphql_url,
         {},
         mutate_config_query(new_config),
     );
+}
+
+export const past_recordings_object = writable({});
+
+export function update_past_recordings() {
+    past_recordings_object.set(fetchGraphQL(
+        graphql_url,
+        {},
+        past_recordings_query,
+    ));
 }
 
 update_objects();
