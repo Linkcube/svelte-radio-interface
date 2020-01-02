@@ -1,8 +1,9 @@
 <script>
     import { primary, background, base_text_color, text_on_color } from './theme.js';
-    import { misc_object, api_object } from './stores';
+    import { misc_object, api_object, current_page } from './stores';
     import LastPlayed from './LastPlayed.svelte';
     import RecordingControls from './RecordingControls.svelte';
+    import PastRecordings from './PastRecordings.svelte';
 </script>
 
 <style>
@@ -41,14 +42,18 @@
 
 
 <main style="--primary-color:{$background}">
-    <div class="top">
-        <div class="dj-pic">
-            <img src={$misc_object.dj_image_link} alt="dj_pic" class="dj-pic" />
+    {#if $current_page == "main"}
+        <div class="bottom">
+                <h1>Current DJ: {$api_object.dj_name}</h1>
+                <RecordingControls></RecordingControls>
         </div>
-        <LastPlayed></LastPlayed>
-    </div>
-    <div class="bottom">
-        <h1>Current DJ: {$api_object.dj_name}</h1>
-        <RecordingControls></RecordingControls>
-    </div>
+        <div class="top">
+            <div class="dj-pic">
+                <img src={$misc_object.dj_image_link} alt="dj_pic" class="dj-pic" />
+            </div>
+            <LastPlayed></LastPlayed>
+        </div>
+    {:else}
+        <PastRecordings></PastRecordings>
+    {/if}
 </main>
