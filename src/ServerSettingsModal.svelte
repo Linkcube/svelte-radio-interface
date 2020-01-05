@@ -1,5 +1,7 @@
 <script>
-    import { createEventDispatcher, onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
+	
+	export let use_submission = true;
 
 	const dispatch = createEventDispatcher();
     const close = () => dispatch('close');
@@ -56,8 +58,12 @@
 	<!-- svelte-ignore a11y-autofocus -->
 	<!-- <button autofocus on:click={close}>close modal</button> -->
     <div class="user-actions">
-        <span class="cancel" on:click={close}>Cancel</span>
-        <span class="accept" on:click={submission}>Accept</span>
+		{#if use_submission}
+			<span class="cancel" on:click={close}>Cancel</span>
+			<span class="accept" on:click={submission}>Accept</span>
+		{:else}
+			<span class="accept" on:click={close}>Close</span>
+		{/if}
     </div>
 </div>
 
@@ -69,6 +75,7 @@
 		width: 100%;
 		height: 100%;
 		background: rgba(0,0,0,0.3);
+		z-index: 1;
 	}
 
 	.modal {
@@ -77,13 +84,14 @@
 		top: 50%;
 		width: calc(100vw - 4em);
 		max-width: 38em;
-		max-height: calc(100vh - 4em);
+		max-height: 70%;
 		overflow: auto;
 		transform: translate(-50%,-50%);
 		padding: 1em;
 		border-radius: 0.2em;
 		background: white;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.29);
+		z-index: 2;
 	}
 
 	button {

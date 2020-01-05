@@ -99,10 +99,25 @@ query {
     past_recordings {
         recordings {
             folder,
-            songs
+            songs,
+            cover
         }
     }
 }`;
+
+const full_recording_query = (folder) => `
+    query {
+        full_recording(folder: "${folder}") {
+            songs
+        }
+    }`
+;
+
+const recording_controls_query = (action) => `
+    mutation {
+        streamAction(action: "${action}")
+    }
+`;
 
 const mutate_config_query = (config_data) => `
     mutation {
@@ -166,6 +181,22 @@ export function update_past_recordings() {
         {},
         past_recordings_query,
     ));
+}
+
+export function query_full_recordings(folder) {
+    return fetchGraphQL(
+        graphql_url,
+        {},
+        full_recording_query(folder)
+    );
+}
+
+export function send_stream_action(action) {
+    return fetchGraphQL(
+        graphql_url,
+        {},
+        recording_controls_query(action)
+    )
 }
 
 update_objects();

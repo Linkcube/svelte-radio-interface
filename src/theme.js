@@ -15,3 +15,5 @@ export const sub_text_color = writable("gray");
 export const hover_color = writable("lightgray");
 
 export const input_hover_color = writable("yellow");
+
+export const primary_light = writable("#EBF6FA");
