@@ -98,8 +98,8 @@
                 </div>
             </div>
             <div class="song-list">
-                {#each value.data.full_recording.songs as song}
-                    <RecordedSong src={`http://localhost:4000/${modal_folder}/${song}`} {song}></RecordedSong>
+                {#each value.data.full_recording.songs as song, index}
+                    <RecordedSong src={`http://localhost:4000/${modal_folder}/${song.file}`} {song} {index}></RecordedSong>
                 {:else}
                     <p>No songs found.</p>
                 {/each}

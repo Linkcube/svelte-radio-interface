@@ -108,7 +108,11 @@ query {
 const full_recording_query = (folder) => `
     query {
         full_recording(folder: "${folder}") {
-            songs
+            songs {
+                title
+                artist
+                file
+            }
         }
     }`
 ;
