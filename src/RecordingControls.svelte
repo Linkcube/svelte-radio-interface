@@ -1,20 +1,9 @@
 <script>
-    function forceStop() {
-        fetch(`http://localhost:8080/stop`, {
-            method: 'GET',
-        });
-    }
-
-    function startRecording() {
-        fetch(`http://localhost:8080/start`, {
-            method: 'GET',
-        });
-    }
-
-    function refreshRecording() {
-        fetch(`http://localhost:8080/refresh`, {
-            method: 'GET',
-        });
+    import { send_stream_action } from './stores.js';
+    
+    function stream_action(action) {
+        let promise = send_stream_action(action);
+        promise.then(value => console.log(value));
     }
 </script>
 
@@ -38,6 +27,6 @@
 
 <h2>Recording Controls</h2>
 
-<button class="material-icons" on:click={forceStop}>not_interested</button>
-<button class="material-icons" on:click={startRecording}>play_arrow</button>
-<button class="material-icons" on:click={refreshRecording}>refresh</button>
+<button class="material-icons" on:click={() => stream_action("stop")}>not_interested</button>
+<button class="material-icons" on:click={() => stream_action("start")}>play_arrow</button>
+<button class="material-icons" on:click={() => stream_action("refresh")}>refresh</button>
