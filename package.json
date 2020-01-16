@@ -1,6 +1,7 @@
 {
   "name": "svelte-radio-interface",
-  "version": "1.0.0",
+  "version": "1.0.3",
+  "main": "public/index.html",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
@@ -21,6 +22,11 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "sirv-cli": "^0.4.4"
-  }
+  },
+  "files": [
+    "public/**/*"
+  ],
+  "bin": "public/serve.js"
 }
