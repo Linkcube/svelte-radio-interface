@@ -1,12 +1,23 @@
 {
   "name": "svelte-radio-interface",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "description": "Svelte GUI for Nora",
   "main": "public/index.html",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Linkcube/svelte-radio-interface.git"
+  },
+  "author": "Linkcube",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Linkcube/svelte-radio-interface/issues"
+  },
+  "homepage": "https://github.com/Linkcube/svelte-radio-interface#readme",
   "devDependencies": {
     "@material-ui/icons": "^4.5.1",
     "@rollup/plugin-commonjs": "^11.0.0",
@@ -19,11 +30,11 @@
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "svelte": "^3.0.0",
+    "sirv-cli": "^0.4.4"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "sirv-cli": "^0.4.4"
+    "express": "^4.17.1"
   },
   "files": [
     "public/**/*"
