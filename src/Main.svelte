@@ -1,9 +1,10 @@
 <script>
     import { primary, background, base_text_color, text_on_color } from './theme.js';
-    import { misc_object, api_object, current_page } from './stores';
+    import { misc_object, api_object, current_page, snackbar_store } from './stores';
     import LastPlayed from './LastPlayed.svelte';
     import RecordingControls from './RecordingControls.svelte';
     import PastRecordings from './PastRecordings.svelte';
+    import Snackbar from './Snackbar.svelte';
 </script>
 
 <style>
@@ -56,4 +57,5 @@
     {:else}
         <PastRecordings></PastRecordings>
     {/if}
+    <Snackbar storage={snackbar_store}></Snackbar>
 </main>

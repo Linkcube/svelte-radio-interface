@@ -1,9 +1,36 @@
 <script>
-    import { send_stream_action } from './stores.js';
+    import { send_stream_action, snackbar_store } from './stores.js';
+
+    const msg_success = {
+        "start": "Started Recording",
+        "stop": "Recording Stopped",
+        "refresh": "Refreshed the Recording"
+    };
     
     function stream_action(action) {
         let promise = send_stream_action(action);
-        promise.then(value => console.log(value));
+        promise.then((value) => {
+            if (value.data.streamAction) {
+                return "success";
+            }
+            return "error";
+        }).catch((err) => false).then((value) => {
+            let severity;
+            if (value) {
+                severity = value;
+            } else {
+                severity = "warning";
+            }
+            let msg;
+            if (severity === "success") {
+                msg = msg_success[action];
+            } else if (severity === "error") {
+                msg = `Failed to ${action}.`;
+            } else {
+                msg = "Could not contact Nora";
+            }
+            snackbar_store.set({severity, msg});
+        });
     }
 </script>
 
