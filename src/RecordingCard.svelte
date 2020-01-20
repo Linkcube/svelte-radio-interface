@@ -51,11 +51,13 @@
         margin-left: auto;
         margin-right: auto;
         opacity: .9;
+        outline: 1px solid transparent;
     }
 
     img:hover {
         opacity: 1;
         transition-duration: 500ms;
+        outline: 1px solid transparent;
     }
 
     .dj_name {

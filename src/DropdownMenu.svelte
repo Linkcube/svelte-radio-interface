@@ -1,6 +1,6 @@
 <script>
     import ServerSettingsModal from './ServerSettingsModal.svelte';
-    import { current_page, query_config, change_config, update_past_recordings } from './stores.js';
+    import { current_page, query_config, change_config, update_past_recordings, snackbar_store } from './stores.js';
     import { hover_color, text_on_color, highlight } from './theme.js';
     import FancyInput from './FancyInput.svelte';
 
@@ -46,8 +46,19 @@
     function submit() {
         config_data.excluded_djs = JSON.parse(config_data.excluded_djs);
         change_config(config_data).then(result => {
-             console.log(result);
-             update_past_recordings();
+            if (result.data.updateConfig === "Changed") {
+                snackbar_store.set({
+                    severity: "success",
+                    msg: "Settings Changed"
+                });
+            } else {
+                snackbar_store.set({
+                    severity: "error",
+                    msg: "Settings not Changed"
+                });
+            }
+            console.log(result);
+            update_past_recordings();
         }
         );
     }

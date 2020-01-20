@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
 import fetchGraphQL from 'fetch-graphql';
 
+export const snackbar_store = writable(false);
+
 export const poll_interval = writable(5000);
 
 export const current_page = writable("main");
