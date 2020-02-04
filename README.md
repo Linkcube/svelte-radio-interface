@@ -12,10 +12,10 @@ npx svelte-radio-interface
 - Control Nora recording with a gui (Stop/Start/Refresh)
 - View past recordings, and play songs through the UI
 - Dashboard of the current DJ, current song, and server data
+- Snackbars are finally in
 - It's in svelte!
 
 ## Todo
-- Snackbar or equivelent for clicking the control buttons
 - Themes or other aesthetic additions
 
 ## Links
