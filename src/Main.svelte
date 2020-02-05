@@ -23,6 +23,9 @@
         flex-direction: column;
         margin-left: auto;
         margin-right: auto;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 
     .top {

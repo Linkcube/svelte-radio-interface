@@ -138,7 +138,9 @@ const mutate_config_query = (config_data) => `
     }
 `;
 
-const graphql_url = 'http://localhost:4000/graphql';
+export const graphql_base = 'http://localhost:4000';
+
+const graphql_url = `${graphql_base}/graphql`;
 
 function update_objects() {
     fetchGraphQL(

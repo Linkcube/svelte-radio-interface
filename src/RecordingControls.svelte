@@ -44,16 +44,28 @@
         padding-right: 15px;
         cursor: pointer;
         transition: 0.3s;
+        border-radius:100px;
     }
 
     .material-icons:hover {
         box-shadow: 0px 8px  rgba(0,0,0,0.6);
-        border-radius:100px;
+    }
+
+    .material-icons::-moz-focus-inner {
+        border: 0;
+    }
+
+    .controls-container {
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 </style>
 
-<h2>Recording Controls</h2>
+<div class="controls-container">
+    <h2>Recording Controls</h2>
 
-<button class="material-icons" on:click={() => stream_action("stop")}>not_interested</button>
-<button class="material-icons" on:click={() => stream_action("start")}>play_arrow</button>
-<button class="material-icons" on:click={() => stream_action("refresh")}>refresh</button>
+    <button class="material-icons" on:click={() => stream_action("stop")}>not_interested</button>
+    <button class="material-icons" on:click={() => stream_action("start")}>play_arrow</button>
+    <button class="material-icons" on:click={() => stream_action("refresh")}>refresh</button>
+</div>

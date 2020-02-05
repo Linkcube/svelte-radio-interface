@@ -1,5 +1,5 @@
 <script>
-    import { update_past_recordings, past_recordings_object, query_full_recordings } from './stores.js';
+    import { update_past_recordings, past_recordings_object, query_full_recordings, graphql_base } from './stores.js';
     import { sub_text_color } from './theme.js';
     import RecordingCard from './RecordingCard.svelte';
     import ServerSettingsModal from './ServerSettingsModal.svelte';
@@ -9,7 +9,7 @@
         songs_promise = query_full_recordings(folder);
         show_recording_modal = true;
         modal_title = folder.split(' ')[1];
-        modal_date = get_date(folder.split(' ')[0]);
+        modal_date = `${get_date(folder.split(' ')[0])} (${folder.split(' ')[0]})`;
         modal_folder = folder;
     }
 
@@ -38,7 +38,7 @@
     .song-list {
         display: flex;
         flex-direction: column;
-        max-height: 600px;
+        max-height: 520px;
         overflow-y: auto;
     }
 
@@ -57,6 +57,25 @@
 
     h1 {
         text-align: center;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
+    }
+
+    .loader {
+        margin-left: auto;
+        margin-right: auto;
+        border: 0px solid #f3f3f3; /* Light grey */
+        border-top: 5px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
 
@@ -65,11 +84,11 @@
 
     <div class="card-display">
         {#await $past_recordings_object}
-            <p>Fetching recordings</p>
+            <div class="loader"></div>
         {:then value}
             {#each value.data.past_recordings.recordings as {folder, songs, cover}}
                 <RecordingCard 
-                    background_source={`http://localhost:4000/${cover}`}
+                    background_source={`${graphql_base}/${cover}`}
                     folder={folder}
                     songs={songs}
                     on:open="{() => open_recording(folder)}"
@@ -87,7 +106,7 @@
 {#if show_recording_modal}
     <ServerSettingsModal on:close="{() => show_recording_modal = false}" use_submission={false}>
         {#await songs_promise}
-            loading
+            <div class="loader"></div>
         {:then value}
             <div slot="header">
                 <div class="modal-title">
@@ -99,7 +118,7 @@
             </div>
             <div class="song-list">
                 {#each value.data.full_recording.songs as song, index}
-                    <RecordedSong src={`http://localhost:4000/${modal_folder}/${song.file}`} {song} {index}></RecordedSong>
+                    <RecordedSong src={`${graphql_base}/${modal_folder}/${song.file}`} {song} {index}></RecordedSong>
                 {:else}
                     <p>No songs found.</p>
                 {/each}

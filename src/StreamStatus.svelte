@@ -21,6 +21,9 @@
         margin-bottom: auto;
         margin-left: 15px;
         margin-right: 15px;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 </style>
 

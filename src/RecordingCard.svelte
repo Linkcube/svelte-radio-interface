@@ -32,11 +32,16 @@
         cursor: pointer;
         border: none;
         outline:none;
+        
     }
 
     .card:hover {
         transition-duration: 500ms;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    }
+
+    .card::-moz-focus-inner {
+        border: 0;
     }
 
     .hover {
