@@ -62,6 +62,9 @@
         flex-direction: column;
         font-size: 15px;
         text-align: center;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 
     .song-name {

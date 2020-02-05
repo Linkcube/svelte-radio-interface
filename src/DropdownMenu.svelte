@@ -67,6 +67,10 @@
 <svelte:window on:keydown={handle_keydown}/>
 
 <style>
+    .menu-container {
+        -webkit-app-region: no-drag;
+    }
+
     .material-icons {
         color: var(--primary-color);
         margin-top: 5px;
@@ -80,6 +84,10 @@
 
     .material-icons:hover {
         box-shadow: 6px 6px  var(--shadow-color);
+    }
+
+    .material-icons:focus {
+        background-color: rgba(0, 0, 0, 0);
     }
 
     .open-menu-icon {
@@ -133,38 +141,40 @@
     }
 </style>
 
-<button on:click={openMenu} class="{menu_open ? 'material-icons open-menu-icon' : 'material-icons'}" style="--primary-color:{$text_on_color}; --shadow-color:{$highlight}">
-    { menu_open ? 'menu_open' : 'menu' }
-</button>
+<div class="menu-container">
+    <button on:click={openMenu} class="{menu_open ? 'material-icons open-menu-icon' : 'material-icons'}" style="--primary-color:{$text_on_color}; --shadow-color:{$highlight}">
+        { menu_open ? 'menu_open' : 'menu' }
+    </button>
 
-{#if menu_open}
-    <div class="dropdown-content">
-        <span on:click={serverSettings} style="--hover-color:{$hover_color}">Change Server Settings</span>
-        {#if $current_page == "main"}
-            <span on:click={pastRecordings} style="--hover-color:{$hover_color}">Show Past Recordings</span>
-        {:else}
-            <span on:click={mainPage} style="--hover-color:{$hover_color}">Show Controls</span>
-        {/if}
-    </div>
-    <div class="menu-background" on:click="{() => menu_open = false}"></div>
-{/if}
+    {#if menu_open}
+        <div class="dropdown-content">
+            <span on:click={serverSettings} style="--hover-color:{$hover_color}">Change Server Settings</span>
+            {#if $current_page == "main"}
+                <span on:click={pastRecordings} style="--hover-color:{$hover_color}">Show Past Recordings</span>
+            {:else}
+                <span on:click={mainPage} style="--hover-color:{$hover_color}">Show Controls</span>
+            {/if}
+        </div>
+        <div class="menu-background" on:click="{() => menu_open = false}"></div>
+    {/if}
 
-{#if open_modal}
-    <ServerSettingsModal on:close="{() => open_modal = false}" on:submission={submit}>
-        <div class="modal-title" slot="header">Change your server settings</div>
-        {#await config_promise}
-            loading
-        {:then value}
-            <div class="form-input">
-                <FancyInput id="api_uri" label="API URI" bind:value={config_data.api_uri}></FancyInput>
-                <FancyInput id="server_uri" label="Server URI" bind:value={config_data.server_uri}></FancyInput>
-                <FancyInput id="stream_uri" label="Stream URI" bind:value={config_data.stream_uri}></FancyInput>
-                <FancyInput id="poll_interval" label="Poll Interval" bind:value={config_data.poll_interval}></FancyInput>
-                <FancyInput id="excluded_djs" label="Excluded DJs" hint_text="JSON array of strings" bind:value={config_data.excluded_djs}></FancyInput>
-                <FancyInput id="export_folder" label="Export Folder" hint_text="Leave empty for same directory as file" bind:value={config_data.export_folder}></FancyInput>
-            </div>
-        {:catch error}
-            {error.message}
-        {/await}
-    </ServerSettingsModal>
-{/if}
+    {#if open_modal}
+        <ServerSettingsModal on:close="{() => open_modal = false}" on:submission={submit}>
+            <div class="modal-title" slot="header">Change your server settings</div>
+            {#await config_promise}
+                loading
+            {:then value}
+                <div class="form-input">
+                    <FancyInput id="api_uri" label="API URI" bind:value={config_data.api_uri}></FancyInput>
+                    <FancyInput id="server_uri" label="Server URI" bind:value={config_data.server_uri}></FancyInput>
+                    <FancyInput id="stream_uri" label="Stream URI" bind:value={config_data.stream_uri}></FancyInput>
+                    <FancyInput id="poll_interval" label="Poll Interval" bind:value={config_data.poll_interval}></FancyInput>
+                    <FancyInput id="excluded_djs" label="Excluded DJs" hint_text="JSON array of strings" bind:value={config_data.excluded_djs}></FancyInput>
+                    <FancyInput id="export_folder" label="Export Folder" hint_text="Leave empty for same directory as file" bind:value={config_data.export_folder}></FancyInput>
+                </div>
+            {:catch error}
+                {error.message}
+            {/await}
+        </ServerSettingsModal>
+    {/if}
+</div>

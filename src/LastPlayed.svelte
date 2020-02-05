@@ -27,6 +27,9 @@
 
     p {
         font-size: 20px;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 </style>
 

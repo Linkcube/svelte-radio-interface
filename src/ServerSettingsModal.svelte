@@ -101,6 +101,7 @@
     .user-actions {
         display: flex;
         justify-content: flex-end;
+		line-height: 40px;
     }
 
     .cancel {
