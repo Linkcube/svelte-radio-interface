@@ -23,6 +23,9 @@
         if ($misc_object.rec_start !== null) {
             total_stamp = value.current_time - $misc_object.rec_start;
             total_time = format_seconds(total_stamp);
+        } else if (total_stamp !== 0) {
+            total_stamp = 0;
+            total_time = format_seconds(0);
         }
     });
 

@@ -1,14 +1,17 @@
 <script>
     import ServerSettingsModal from './ServerSettingsModal.svelte';
-    import { current_page, query_config, change_config, update_past_recordings, snackbar_store } from './stores.js';
+    import { current_page, query_config, change_config, update_past_recordings, snackbar_store, post_stream_action } from './stores.js';
     import { hover_color, text_on_color, highlight } from './theme.js';
     import FancyInput from './FancyInput.svelte';
+
+    const using_electron = navigator.userAgent.indexOf('Electron') >= 0;
 
     let menu_open = false;
     let main_page = true;
     let open_modal = false;
     let config_data = {};
     let config_promise;
+    let exit_modal = false;
     
 
     function openMenu() {
@@ -44,6 +47,7 @@
     }
 
     function submit() {
+        snackbar_store.set(false);
         config_data.excluded_djs = JSON.parse(config_data.excluded_djs);
         change_config(config_data).then(result => {
             if (result.data.updateConfig === "Changed") {
@@ -59,8 +63,7 @@
             }
             console.log(result);
             update_past_recordings();
-        }
-        );
+        }).then(() => post_stream_action());
     }
 </script>
 
@@ -121,6 +124,15 @@
         
     }
 
+    .exit-page {
+        color: red;
+    }
+
+    .exit-page:hover {
+        background: rgb(253, 229, 232);
+        transition-duration: 400ms;
+    }
+
     .menu-background {
         position: fixed;
         top: 0;
@@ -139,6 +151,11 @@
     .modal-title {
         font-size: 20px;
     }
+
+    .exit-title {
+        font-size: 20px;
+        text-align: center;
+    }
 </style>
 
 <div class="menu-container">
@@ -152,14 +169,17 @@
             {#if $current_page == "main"}
                 <span on:click={pastRecordings} style="--hover-color:{$hover_color}">Show Past Recordings</span>
             {:else}
-                <span on:click={mainPage} style="--hover-color:{$hover_color}">Show Controls</span>
+                <span on:click={mainPage}>Show Controls</span>
+            {/if}
+            {#if using_electron}
+                <span on:click={() => exit_modal = true} class="exit-page">Exit Program</span>
             {/if}
         </div>
-        <div class="menu-background" on:click="{() => menu_open = false}"></div>
+        <div class="menu-background" on:click={() => menu_open = false}></div>
     {/if}
 
     {#if open_modal}
-        <ServerSettingsModal on:close="{() => open_modal = false}" on:submission={submit}>
+        <ServerSettingsModal on:close={() => open_modal = false} on:submission={submit}>
             <div class="modal-title" slot="header">Change your server settings</div>
             {#await config_promise}
                 loading
@@ -175,6 +195,12 @@
             {:catch error}
                 {error.message}
             {/await}
+        </ServerSettingsModal>
+    {/if}
+
+    {#if exit_modal}
+        <ServerSettingsModal on:close={() => exit_modal = false} on:submission={() => window.close()}>
+            <div class="exit-title" slot="header">Exit the program?</div>
         </ServerSettingsModal>
     {/if}
 </div>

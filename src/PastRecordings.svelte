@@ -40,6 +40,9 @@
         flex-direction: column;
         max-height: 520px;
         overflow-y: auto;
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 
     .modal-title {
@@ -91,7 +94,7 @@
                     background_source={`${graphql_base}/${cover}`}
                     folder={folder}
                     songs={songs}
-                    on:open="{() => open_recording(folder)}"
+                    on:open={() => open_recording(folder)}
                 >
                 </RecordingCard>
             {:else}
@@ -104,7 +107,7 @@
 </div>
 
 {#if show_recording_modal}
-    <ServerSettingsModal on:close="{() => show_recording_modal = false}" use_submission={false}>
+    <ServerSettingsModal on:close={() => show_recording_modal = false} use_submission={false}>
         {#await songs_promise}
             <div class="loader"></div>
         {:then value}

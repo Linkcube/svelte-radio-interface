@@ -207,5 +207,18 @@ export function send_stream_action(action) {
     )
 }
 
+export function post_stream_action() {
+    fetchGraphQL(
+        graphql_url,
+        {},
+        valid_query,
+    ).then(result => valid_object.set(result.data.valid));
+    fetchGraphQL(
+        graphql_url,
+        {},
+        misc_query,
+    ).then(result => misc_object.set(result.data.misc));
+}
+
 update_objects();
 setInterval(() => update_objects(), 5000);

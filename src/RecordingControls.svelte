@@ -1,5 +1,5 @@
 <script>
-    import { send_stream_action, snackbar_store } from './stores.js';
+    import { send_stream_action, snackbar_store, post_stream_action } from './stores.js';
 
     const msg_success = {
         "start": "Started Recording",
@@ -8,6 +8,7 @@
     };
     
     function stream_action(action) {
+        snackbar_store.set(false);
         let promise = send_stream_action(action);
         promise.then((value) => {
             if (value.data.streamAction) {
@@ -30,7 +31,7 @@
                 msg = "Could not contact Nora";
             }
             snackbar_store.set({severity, msg});
-        });
+        }).then(() => post_stream_action());
     }
 </script>
 

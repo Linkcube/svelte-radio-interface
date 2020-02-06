@@ -19,16 +19,22 @@
 	let audio;
 	let paused = true;
 	let duration;
+	let elements_index = -1;
 
 	onMount(() => {
 		elements.add(audio);
+		elements_index = elements.size;
 		return () => elements.delete(audio);
 	});
 
 	function stopOthers() {
 		elements.forEach(element => {
-			if (element !== audio) element.pause();
+			if (element !== audio) {
+				element.pause();
+				element.controls = false;
+			}
 		});
+		audio.controls = true;
 	}
 
 	function formatSeconds(seconds) {
@@ -42,13 +48,22 @@
 			.map(v => v < 10 ? "0" + v : v)
 			.filter((v,i) => v !== "00" || i > 0)
 			.join(":")
+	}
+	
+	function playNext() {
+		if (elements_index < elements.size) {
+			[...elements][elements_index].play();
+			audio.controls = false;
 		}
+	}
 </script>
 
 <style>
 	span {
 		cursor: pointer;
 		word-wrap: break-word;
+		padding: 5px;
+		border-radius: 5px;
 	}
 
     span:hover {
@@ -87,6 +102,7 @@
 	bind:paused
 	bind:duration
 	on:play={stopOthers}
+	on:ended={playNext}
 	{src}
 	preload="metadata"
 ></audio>
