@@ -19,6 +19,7 @@
         border-color: var(--border-color);
         transition-duration: 400ms;
         border-radius: 5px;
+        outline: 0;
     }
 
     input {

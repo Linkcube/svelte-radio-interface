@@ -13,6 +13,8 @@ npx svelte-radio-interface
 - View past recordings, and play songs through the UI
 - Dashboard of the current DJ, current song, and server data
 - Snackbars are finally in
+- Full recording playback with audio controls
+- Quicker response than 1.0.x
 - It's in svelte!
 
 ## Todo

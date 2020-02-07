@@ -2,7 +2,7 @@
 	import { tweened } from 'svelte/motion';
     import { linear } from 'svelte/easing';
 
-    import { poll_interval, start_time, api_object, end_time } from './stores';
+    import { poll_interval, api_object, end_time } from './stores';
     import { highlight, background, primary } from './theme.js';
 
 	const progress = tweened(0, {

@@ -20,6 +20,7 @@
     let snackbar;
     let show_snackbar = false;
     let snackbar_icon = "warning";
+    let snackbar_timeout = false;
 
     
 
@@ -29,7 +30,10 @@
             snackbar_icon = icon_index[value.severity];
             snackbar_text = value.msg;
             show_snackbar = true;
-            setTimeout(() => show_snackbar = false, 3000);
+            snackbar_timeout = setTimeout(() => show_snackbar = false, 3000);
+        } else if (snackbar_timeout) {
+            clearTimeout(snackbar_timeout);
+            show_snackbar = false;
         }
     });
     
