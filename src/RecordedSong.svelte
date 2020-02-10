@@ -3,38 +3,41 @@
 
 	export function stopAll() {
 		elements.forEach(element => {
-			element.pause();
+			element.audio.pause();
 		});
 	}
 </script>
 
 <script>
 	import { onMount } from 'svelte';
-	 import { hover_color, primary_light, sub_text_color } from './theme.js';
+	import { hover_color, primary_light, sub_text_color, highlight, background } from './theme.js';
+	import AudioControls from 'svelte-audio-controls';
 
 	export let src;
 	export let song;
 	export let index;
 
 	let audio;
+	let controls;
 	let paused = true;
 	let duration;
 	let elements_index = -1;
 
 	onMount(() => {
-		elements.add(audio);
+		elements.add(controls);
 		elements_index = elements.size;
-		return () => elements.delete(audio);
+		return () => elements.delete(controls);
 	});
 
 	function stopOthers() {
 		elements.forEach(element => {
-			if (element !== audio) {
-				element.pause();
-				element.controls = false;
+			if (element !== controls) {
+				element.audio.pause();
+				element.audio.currentTime = 0;
+				element.hide();
 			}
 		});
-		audio.controls = true;
+		controls.show();
 	}
 
 	function formatSeconds(seconds) {
@@ -52,8 +55,8 @@
 	
 	function playNext() {
 		if (elements_index < elements.size) {
-			[...elements][elements_index].play();
-			audio.controls = false;
+			[...elements][elements_index].audio.play();
+			controls.hide();
 		}
 	}
 </script>
@@ -96,13 +99,17 @@
 		<div>{formatSeconds(duration)}</div>
 	</div>
 </span>
-
-<audio
-	bind:this={audio}
+<AudioControls
+	{src}
+	bind:this={controls}
+	bind:audio
 	bind:paused
 	bind:duration
 	on:play={stopOthers}
 	on:ended={playNext}
-	{src}
-	preload="metadata"
-></audio>
+	iconColor={$sub_text_color}
+	textColor={$sub_text_color}
+	barPrimaryColor={$highlight}
+	barSecondaryColor={$hover_color}
+	backgroundColor={$background}
+></AudioControls>
