@@ -24,3 +24,6 @@ npx svelte-radio-interface
 svelte-radio-interface: [github](https://github.com/Linkcube/svelte-radio-interface) [npm](https://www.npmjs.com/package/svelte-radio-interface)
 
 Nora: [github](https://github.com/Linkcube/Nora) [npm](https://www.npmjs.com/package/linkcube-nora)
+
+Components used:
+- svelte-audio-controls [github](https://github.com/Linkcube/svelte-audio-controls) [npm](https://www.npmjs.com/package/svelte-audio-controls)
