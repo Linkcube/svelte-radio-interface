@@ -105,6 +105,7 @@
 	bind:audio
 	bind:paused
 	bind:duration
+	disableTooltip={true}
 	on:play={stopOthers}
 	on:ended={playNext}
 	iconColor={$sub_text_color}
