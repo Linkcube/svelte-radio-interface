@@ -102,6 +102,9 @@
         display: flex;
         justify-content: flex-end;
 		line-height: 40px;
+		-webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10+ and Edge */
+        user-select: none; /* Standard syntax */
     }
 
     .cancel {
