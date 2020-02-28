@@ -1,9 +1,9 @@
 <script>
     import { update_past_recordings, past_recordings_object, query_full_recordings, graphql_base } from './stores.js';
-    import { sub_text_color } from './theme.js';
-    import RecordingCard from './RecordingCard.svelte';
+    import { sub_text_color, base_text_color } from './theme.js';
     import ServerSettingsModal from './ServerSettingsModal.svelte';
     import RecordedSong from './RecordedSong.svelte';
+    import PreviewCard from 'svelte-preview-card';
 
     function open_recording(folder) {
         songs_promise = query_full_recordings(folder);
@@ -17,6 +17,12 @@
         var date = new Date(null);
         date.setSeconds(seconds);
         return date.toString();
+    }
+
+    function get_recording_date(seconds) {
+        var date = new Date(null);
+        date.setSeconds(seconds);
+        return date.toString().split(' ').splice(0, 4).join(' ');
     }
 
     let show_recording_modal = false;
@@ -90,13 +96,15 @@
             <div class="loader"></div>
         {:then value}
             {#each value.data.past_recordings.recordings as {folder, songs, cover}}
-                <RecordingCard 
+                <PreviewCard
                     background_source={`${graphql_base}/${cover}`}
-                    folder={folder}
-                    songs={songs}
+                    primary_text={`${folder.split(' ')[1]} (${songs})`}
+                    sub_text={get_recording_date(folder.split(' ')[0])}
+                    alt_text="DJ Image"
+                    primary_text_color={$base_text_color}
+                    sub_text_color={$sub_text_color}
                     on:open={() => open_recording(folder)}
-                >
-                </RecordingCard>
+                ></PreviewCard>
             {:else}
                 <p>No recordings yet.</p>
             {/each}
