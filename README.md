@@ -27,3 +27,4 @@ Nora: [github](https://github.com/Linkcube/Nora) [npm](https://www.npmjs.com/pac
 
 Components used:
 - svelte-audio-controls [github](https://github.com/Linkcube/svelte-audio-controls) [npm](https://www.npmjs.com/package/svelte-audio-controls)
+- svelte-preview-card [github](https://github.com/Linkcube/svelte-preview-card) [npm](https://www.npmjs.com/package/svelte-preview-card)
