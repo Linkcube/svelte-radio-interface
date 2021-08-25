@@ -138,7 +138,7 @@ const mutate_config_query = (config_data) => `
     }
 `;
 
-export const graphql_base = 'http://localhost:4000';
+export const graphql_base = `${location.protocol}://${window.location.hostname}:4000`;
 
 const graphql_url = `${graphql_base}/graphql`;
 
